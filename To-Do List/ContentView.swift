@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var toDoItems =
+    @ObservedObject var toDoList = ToDoList()
+    private var toDoItems =
             [ToDoItem(priority: "High", description: "Take out trash", dueDate: Date()),
              ToDoItem(priority: "Medium", description: "Pick up clothes", dueDate: Date()),
              ToDoItem(priority: "Low", description: "Eat a donut", dueDate: Date())]
@@ -26,9 +27,9 @@ struct ContentView: View {
                         Text(item.dueDate, style: .date)
                     }
                 }
-                .onMove{indices, newOffset in toDoItems.move(fromOffsets: indices, toOffset: newOffset)
+                .onMove{indices, newOffset in toDoList.items.move(fromOffsets: indices, toOffset: newOffset)
                 }
-                .onDelete{indexSet in toDoItems.remove(atOffsets: indexSet)
+                .onDelete{indexSet in toDoList.items.remove(atOffsets: indexSet)
                           }
             }
             .navigationBarTitle("To Do List", displayMode: .inline)
